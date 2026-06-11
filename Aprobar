@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aprobar Contrato — Hogar Salud IPS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#0f2d5a,#1e40af);padding:18px 24px;display:flex;align-items:center;gap:14px}
+.hdr-logo{width:42px;height:42px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0}
+.hdr h1{color:#fff;font-size:17px;font-weight:700;margin-bottom:2px}
+.hdr p{color:rgba(255,255,255,0.7);font-size:12px}
+.main{max-width:600px;margin:0 auto;padding:24px 16px 60px}
+.card{background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.sec{padding:24px}
+.ttl{font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sub{font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.6}
+.irow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f8fafc;gap:12px}
+.il{font-size:13px;color:#64748b;flex-shrink:0}
+.iv{font-size:13px;font-weight:600;color:#1e293b;text-align:right}
+.otp-in{width:100%;padding:16px;border:2px solid #e2e8f0;border-radius:10px;font-size:34px;text-align:center;font-weight:800;letter-spacing:14px;outline:none;font-family:monospace;transition:border-color .2s;box-sizing:border-box}
+.otp-in:focus{border-color:#1e40af}
+.otp-in.err{border-color:#dc2626;background:#fff5f5}
+.err-msg{color:#dc2626;font-size:13px;font-weight:600;text-align:center;margin-top:6px}
+.otp-status{font-size:12px;color:#64748b;text-align:center;min-height:18px;margin-bottom:6px}
+.upload-zone{border:2px dashed #cbd5e1;border-radius:10px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafbfc;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:#1e40af;background:#eff6ff}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.prev-zone{display:none;border:2px solid #16a34a;border-radius:10px;padding:14px;text-align:center;background:#f0fdf4}
+.prev-zone img{max-height:80px;max-width:100%;object-fit:contain;border-radius:6px}
+.prev-label{font-size:13px;color:#16a34a;font-weight:700;margin-top:8px}
+.btn-change-sig{margin-top:7px;background:none;border:1px solid #e2e8f0;color:#64748b;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;font-family:inherit}
+.btn-ok{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:14px;padding:14px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(22,163,74,.3);font-family:inherit}
+.btn-ok:hover:not(:disabled){transform:translateY(-2px)}
+.btn-ok:disabled{opacity:.4;cursor:not-allowed;transform:none;background:#94a3b8}
+.btn-reenv{background:none;border:1px solid #e2e8f0;color:#64748b;padding:9px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;margin-top:8px;width:100%;font-family:inherit}
+.btn-reenv:hover:not(:disabled){background:#f8fafc}
+.btn-reenv:disabled{opacity:.4;cursor:not-allowed}
+.btn-rech{width:100%;margin-top:6px;padding:11px;background:#fff;color:#dc2626;border:2px solid #dc2626;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-rech:hover{background:#fee2e2}
+.note{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 14px;font-size:13px;color:#92400e;margin-top:12px;line-height:1.6;display:flex;gap:10px}
+.countdown{font-size:11px;color:#94a3b8;text-align:center;margin-top:4px;min-height:16px}
+.rech-box{padding:18px}
+.lbl{font-size:12px;font-weight:700;color:#0f172a;display:block;margin-bottom:4px}
+.inp{width:100%;padding:10px 12px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;box-sizing:border-box;outline:none;font-family:inherit}
+.inp:focus{border-color:#dc2626}
+.result{display:none;padding:40px 24px;text-align:center;border-radius:10px;margin-bottom:18px}
+.result.ok{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac}
+.result.rech{background:linear-gradient(135deg,#fff5f5,#fee2e2);border:2px solid #fca5a5}
+.ri{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}
+.result.ok .ri{background:#dcfce7}
+.result.rech .ri{background:#fee2e2}
+.result h2{font-size:19px;font-weight:800;margin-bottom:8px}
+.result.ok h2{color:#166534}.result.rech h2{color:#dc2626}
+.result p{font-size:13px;line-height:1.7}
+.result.ok p{color:#166534}.result.rech p{color:#dc2626}
+.sig-warn{background:#eff6ff;border:1px solid #93c5fd;border-radius:9px;padding:11px 14px;font-size:13px;color:#1e40af;margin-bottom:16px;display:flex;gap:8px;align-items:flex-start;line-height:1.5}
+/* Debug box */
+.debug-box{background:#0f172a;border-radius:8px;padding:12px;margin-top:12px;font-family:monospace;font-size:11px;color:#4ade80;max-height:160px;overflow-y:auto;display:none}
+.debug-box .d-err{color:#f87171}
+.debug-box .d-warn{color:#fbbf24}
+footer{text-align:center;padding:20px;font-size:11px;color:#94a3b8;line-height:1.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:17px;height:17px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.tabs-sig{display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:14px}
+.tab-sig{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s}
+.tab-sig.on{color:#1e40af;border-bottom-color:#1e40af}
+.canvas-wrap-sig{border:2px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff;touch-action:none}
+canvas#sigCanvas{display:block;width:100%;cursor:crosshair}
+.canvas-tools-sig{display:flex;gap:8px;margin-top:8px;align-items:center}
+.btn-clear-sig{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;padding:7px 12px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;font-family:inherit}
+.canvas-hint-sig{font-size:11px;color:#94a3b8;margin-left:auto}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-logo">HS</div>
+  <div>
+    <h1>Hogar Salud IPS SAS — Aprobación</h1>
+    <p>Portal exclusivo Recursos Humanos</p>
+  </div>
+</div>
+
+<div class="main">
+  <div class="card" id="panelMain">
+    <div class="sec">
+      <div class="ttl">🔐 Verificación de identidad</div>
+      <div class="sub" id="otpSub">Ingresa el código que llegó al celular cuando el trabajador firmó. Luego sube tu firma para aprobar el contrato.</div>
+
+      <div style="background:#f8fafc;border-radius:9px;padding:12px 16px;margin-bottom:18px;border:1px solid #e2e8f0">
+        <div class="irow"><span class="il">Trabajador</span><span class="iv" id="iNom">—</span></div>
+        <div class="irow"><span class="il">Cédula</span><span class="iv" id="iCed">—</span></div>
+        <div class="irow"><span class="il">Cargo</span><span class="iv" id="iCargo">—</span></div>
+        <div class="irow"><span class="il">Tipo</span><span class="iv" id="iTipo">—</span></div>
+        <div class="irow" style="border-bottom:none"><span class="il">Fecha inicio</span><span class="iv" id="iFecha">—</span></div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:8px">Paso 1 — Código SMS</div>
+      <div class="otp-status" id="otpStatus">Ingresa el código de 6 dígitos que llegó al celular.</div>
+      <input class="otp-in" id="otpIn" type="text" maxlength="6" placeholder="000000"
+        inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code">
+      <div class="err-msg" id="errMsg" style="display:none"></div>
+      <button class="btn-reenv" id="btnReenv">📱 Reenviar SMS</button>
+      <div class="countdown" id="countdown"></div>
+
+      <!-- DEBUG BOX — visible al presionar Reenviar -->
+      <div class="debug-box" id="debugBox"></div>
+
+      <div style="margin-top:20px;margin-bottom:8px;font-size:13px;font-weight:700;color:#0f172a">Paso 2 — Tu firma</div>
+      <div class="sig-warn">
+        <span style="font-size:15px;flex-shrink:0">✍️</span>
+        <span>Dibuja tu firma o sube una foto. Quedará vinculada permanentemente a este contrato como evidencia de tu aprobación.</span>
+      </div>
+      <div class="tabs-sig">
+        <div class="tab-sig on" id="tabSigDraw" onclick="switchSigTab('draw')">✍ Dibujar firma</div>
+        <div class="tab-sig" id="tabSigUp" onclick="switchSigTab('upload')">📷 Subir imagen</div>
+      </div>
+      <div id="panelSigDraw">
+        <div class="canvas-wrap-sig"><canvas id="sigCanvas" height="160"></canvas></div>
+        <div class="canvas-tools-sig">
+          <button class="btn-clear-sig" onclick="clearSigCanvas()">🗑 Borrar</button>
+          <span class="canvas-hint-sig">Firma con el dedo o el mouse</span>
+        </div>
+      </div>
+      <div id="panelSigUp" style="display:none">
+        <div class="upload-zone" id="sigUpZone">
+          <input type="file" id="sigFileIn" accept="image/jpeg,image/png,image/jpg,image/webp">
+          <span style="font-size:32px;display:block;margin-bottom:8px">📷</span>
+          <div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:4px">Toca aquí para subir tu firma</div>
+          <div style="font-size:12px;color:#64748b">Foto sobre papel blanco · JPG o PNG · Max 5MB</div>
+        </div>
+        <div class="prev-zone" id="sigPrevZone">
+          <img id="sigPrevImg" src="" alt="Tu firma">
+          <div class="prev-label">✅ Firma cargada correctamente</div>
+          <button class="btn-change-sig" id="btnCambiarSig">Cambiar imagen</button>
+        </div>
+      </div>
+
+      <button class="btn-ok" id="btnAprobar" disabled>
+        <span id="btnAprTxt">✓ &nbsp;Aprobar y Firmar Contrato</span>
+        <span id="btnAprSpin" style="display:none" class="spinner"></span>
+      </button>
+
+      <button class="btn-rech" id="btnMostrarRech">✕ &nbsp;Rechazar este contrato</button>
+      <div class="note">
+        <span style="font-size:15px;flex-shrink:0">⚠️</span>
+        <span>Al aprobar, el contrato quedará firmado digitalmente por ambas partes, se guardará en SharePoint y se notificará al trabajador por correo.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="panelRech" style="display:none">
+    <div class="rech-box">
+      <label class="lbl">Motivo del rechazo *</label>
+      <textarea class="inp" id="motivoIn" rows="4" style="resize:vertical;margin-bottom:12px"
+        placeholder="Este mensaje llegará al trabajador por correo..."></textarea>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button id="btnCancelRech" style="background:#f1f5f9;border:1px solid #e2e8f0;padding:9px 16px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;color:#334155;font-family:inherit">Cancelar</button>
+        <button id="btnConfRech" style="background:#dc2626;color:#fff;border:none;padding:9px 18px;border-radius:8px;cursor:pointer;font-weight:700;font-size:13px;font-family:inherit">✕ Confirmar Rechazo</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="result ok" id="resOk">
+    <div class="ri">✅</div>
+    <h2>Contrato Aprobado</h2>
+    <p>El contrato fue aprobado y firmado por ambas partes.<br>Se guardó en SharePoint y el trabajador fue notificado por correo.</p>
+  </div>
+
+  <div class="result rech" id="resRech">
+    <div class="ri">✕</div>
+    <h2>Contrato Rechazado</h2>
+    <p>El contrato fue rechazado.<br>El trabajador fue notificado con el motivo indicado.</p>
+  </div>
+</div>
+
+<footer>Hogar Salud IPS SAS &bull; NIT 900.369.003-1 &bull; Carrera 56 # 72-129, Barranquilla</footer>
+
+<script>
+var FLUJO_APROBAR  = 'https://bb401a6a5927ea58b7ad98868a898c.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/0db3bd1ee5be4312a716e28ba42c80b1/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Dn6rU048WoQHpqs_Omdo5jxC5cwHl6AtxnPutk0q9PY';
+var FLUJO_RECHAZAR = 'https://bb401a6a5927ea58b7ad98868a898c.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/618843c38ca141ebb5faa2e86a367f9f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Al8Des-GNrk10wh7XF04MzuCnmX5WQO61dgAdIUrwyY';
+var FLUJO_REENVIAR = 'https://bb401a6a5927ea58b7ad98868a898c.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/85250955096e45dea8755248921081b2/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=zS6aYuD6bImYkNJIUdb-64rl7OlkAf1ANm_aMEOZMho';
+
+var P          = new URLSearchParams(location.search);
+var contratoId = P.get('contratoId') || '';
+var nombre     = P.get('nombre')     || '';
+var cedula     = P.get('cedula')     || '';
+var cargo      = P.get('cargo')      || '';
+var tipo       = P.get('tipo')       || '';
+var email      = P.get('email')      || '';
+var salario    = P.get('salario')    || '';
+var periodo    = P.get('periodo')    || '';
+var fecha      = P.get('fecha')      || '';
+var labor      = P.get('labor')      || '';
+var ciudad     = P.get('ciudad')     || '';
+var telefono   = P.get('telefono')   || '';
+
+document.getElementById('iNom').textContent   = nombre || '—';
+document.getElementById('iCed').textContent   = cedula || '—';
+document.getElementById('iCargo').textContent = cargo  || '—';
+document.getElementById('iTipo').textContent  = tipo   || '—';
+document.getElementById('iFecha').textContent = fecha  || '—';
+
+/* ══ DEBUG ═══════════════════════════════════════════════════════════ */
+var debugBox = document.getElementById('debugBox');
+function dbg(msg, tipo) {
+  debugBox.style.display = 'block';
+  var line = document.createElement('div');
+  line.className = tipo === 'err' ? 'd-err' : tipo === 'warn' ? 'd-warn' : '';
+  line.textContent = '[' + new Date().toLocaleTimeString('es-CO') + '] ' + msg;
+  debugBox.appendChild(line);
+  debugBox.scrollTop = debugBox.scrollHeight;
+  console.log('[DEBUG]', msg);
+}
+
+/* ══ FIRMA DE ÁLVARO — CANVAS + UPLOAD ══════════════════════════════ */
+var firmaRRHH = null;
+
+function switchSigTab(tab){
+  document.getElementById('tabSigDraw').classList.toggle('on',tab==='draw');
+  document.getElementById('tabSigUp').classList.toggle('on',tab==='upload');
+  document.getElementById('panelSigDraw').style.display=tab==='draw'?'block':'none';
+  document.getElementById('panelSigUp').style.display=tab==='upload'?'block':'none';
+  firmaRRHH=null; verificarListoParaAprobar();
+}
+
+/* Canvas */
+var sigCanvas=document.getElementById('sigCanvas');
+var sigCtx=sigCanvas.getContext('2d');
+var sigDrawing=false; var sigHasDrawn=false;
+function resizeSigCanvas(){
+  var r=sigCanvas.getBoundingClientRect();var s=window.devicePixelRatio||1;
+  sigCanvas.width=r.width*s;sigCanvas.height=160*s;sigCtx.scale(s,s);
+  sigCtx.strokeStyle='#0f2d5a';sigCtx.lineWidth=2.5;sigCtx.lineCap='round';sigCtx.lineJoin='round';
+}
+resizeSigCanvas();window.addEventListener('resize',function(){if(!sigHasDrawn)resizeSigCanvas();});
+function getSigPos(e,c){var r=c.getBoundingClientRect();var t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
+function startSigDraw(e){e.preventDefault();sigDrawing=true;var p=getSigPos(e,sigCanvas);sigCtx.beginPath();sigCtx.moveTo(p.x,p.y);}
+function doSigDraw(e){e.preventDefault();if(!sigDrawing)return;sigHasDrawn=true;var p=getSigPos(e,sigCanvas);sigCtx.lineTo(p.x,p.y);sigCtx.stroke();firmaRRHH=sigCanvas.toDataURL('image/png');verificarListoParaAprobar();}
+function endSigDraw(e){e.preventDefault();sigDrawing=false;}
+sigCanvas.addEventListener('mousedown',startSigDraw);sigCanvas.addEventListener('mousemove',doSigDraw);sigCanvas.addEventListener('mouseup',endSigDraw);
+sigCanvas.addEventListener('touchstart',startSigDraw,{passive:false});sigCanvas.addEventListener('touchmove',doSigDraw,{passive:false});sigCanvas.addEventListener('touchend',endSigDraw,{passive:false});
+function clearSigCanvas(){sigCtx.clearRect(0,0,sigCanvas.width,sigCanvas.height);sigHasDrawn=false;firmaRRHH=null;verificarListoParaAprobar();}
+
+/* Upload */
+var sigFileIn=document.getElementById('sigFileIn');
+var sigUpZone=document.getElementById('sigUpZone');
+var sigPrevZone=document.getElementById('sigPrevZone');
+var sigPrevImg=document.getElementById('sigPrevImg');
+
+function cargarFirmaRRHH(file){
+  if(!file)return;
+  if(file.size>5*1024*1024){alert('Imagen muy grande. Máximo 5MB.');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){firmaRRHH=e.target.result;sigPrevImg.src=firmaRRHH;sigUpZone.style.display='none';sigPrevZone.style.display='block';verificarListoParaAprobar();};
+  reader.readAsDataURL(file);
+}
+sigFileIn.addEventListener('change',function(e){cargarFirmaRRHH(e.target.files[0]);});
+sigUpZone.addEventListener('dragover',function(e){e.preventDefault();sigUpZone.classList.add('drag');});
+sigUpZone.addEventListener('dragleave',function(){sigUpZone.classList.remove('drag');});
+sigUpZone.addEventListener('drop',function(e){e.preventDefault();sigUpZone.classList.remove('drag');cargarFirmaRRHH(e.dataTransfer.files[0]);});
+document.getElementById('btnCambiarSig').addEventListener('click',function(){firmaRRHH=null;sigPrevZone.style.display='none';sigUpZone.style.display='block';sigFileIn.value='';verificarListoParaAprobar();});
+
+/* ══ VALIDAR OTP ═════════════════════════════════════════════════════ */
+var otpIn      = document.getElementById('otpIn');
+var btnAprobar = document.getElementById('btnAprobar');
+
+function verificarListoParaAprobar() {
+  var otpOk = otpIn.value.replace(/\D/g,'').length === 6;
+  var sigOk = firmaRRHH !== null;
+  btnAprobar.disabled = !(otpOk && sigOk);
+}
+
+otpIn.addEventListener('input', function(e) {
+  var v = e.target.value.replace(/\D/g,'').slice(0,6);
+  e.target.value = v;
+  document.getElementById('errMsg').style.display = 'none';
+  e.target.classList.remove('err');
+  verificarListoParaAprobar();
+});
+
+/* ══ COUNTDOWN ═══════════════════════════════════════════════════════ */
+var countdownInterval = null;
+function iniciarCountdown(seg) {
+  var restantes = seg;
+  var el  = document.getElementById('countdown');
+  var btn = document.getElementById('btnReenv');
+  btn.disabled = true;
+  clearInterval(countdownInterval);
+  countdownInterval = setInterval(function() {
+    restantes--;
+    if (restantes <= 0) {
+      clearInterval(countdownInterval);
+      el.textContent = '';
+      btn.disabled   = false;
+    } else {
+      el.textContent = 'Puedes reenviar en ' + restantes + 's';
+    }
+  }, 1000);
+}
+
+/* ══ REENVIAR SMS ════════════════════════════════════════════════════ */
+document.getElementById('btnReenv').addEventListener('click', async function() {
+  var statusEl = document.getElementById('otpStatus');
+  this.disabled = true;
+  statusEl.textContent = 'Reenviando SMS...';
+  statusEl.style.color = '#64748b';
+
+  /* ── DEBUG: mostrar todos los valores clave ── */
+  dbg('=== REENVIAR SMS ===');
+  dbg('contratoId: "' + contratoId + '"');
+  dbg('FLUJO_REENVIAR base: ' + FLUJO_REENVIAR.substring(0, 80) + '...');
+
+  if (!contratoId) {
+    dbg('⚠️ contratoId está VACIO — el flujo no podrá encontrar el contrato', 'err');
+    statusEl.textContent = '❌ Error: contratoId vacío. Revisa el link de la URL.';
+    statusEl.style.color = '#dc2626';
+    this.disabled = false;
+    return;
+  }
+
+  var url = FLUJO_REENVIAR + '&contratoId=' + encodeURIComponent(contratoId);
+  dbg('URL completa: ' + url.substring(0, 120) + '...');
+
+  try {
+    dbg('Enviando fetch...');
+    var resp = await fetch(url, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    '{}'
+    });
+    /* Con no-cors la respuesta es opaca — siempre llega como "ok" aunque el flujo falle */
+    dbg('fetch completado (no-cors — respuesta opaca, no podemos ver el status)');
+    dbg('✅ Solicitud enviada — revisa el Run history del flujo en Power Automate');
+    statusEl.textContent = '✅ SMS reenviado. Usa el mismo código anterior.';
+    statusEl.style.color = '#16a34a';
+  } catch(e) {
+    dbg('❌ Error de red: ' + e.message, 'err');
+    statusEl.textContent = 'Error al reenviar. Intenta de nuevo.';
+    statusEl.style.color = '#dc2626';
+  }
+
+  iniciarCountdown(30);
+});
+
+/* ══ APROBAR ═════════════════════════════════════════════════════════ */
+btnAprobar.addEventListener('click', async function() {
+  var cod = otpIn.value.replace(/\D/g,'').trim();
+  if (cod.length !== 6 || !firmaRRHH) return;
+
+  document.getElementById('btnAprTxt').style.display  = 'none';
+  document.getElementById('btnAprSpin').style.display = 'inline-block';
+  this.disabled = true;
+
+  try {
+    var res = await fetch(FLUJO_APROBAR, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        otp:       cod,
+        contratoId,
+        nombre, cedula, cargo, tipo, email,
+        salario, periodo, fecha, labor, ciudad, telefono,
+        firmaRRHH
+      })
+    });
+
+    if (res.ok || res.status === 502) {
+      document.getElementById('panelMain').style.display = 'none';
+      document.getElementById('panelRech').style.display = 'none';
+      document.getElementById('resOk').style.display     = 'block';
+      window.scrollTo({ top:0, behavior:'smooth' });
+    } else {
+      var d = {};
+      try { d = await res.json(); } catch(e2) {}
+      if (d.error === 'otp_invalido') {
+        otpIn.classList.add('err');
+        document.getElementById('errMsg').textContent = 'Código incorrecto. Verifica el SMS e intenta de nuevo.';
+        document.getElementById('errMsg').style.display = 'block';
+      } else {
+        alert('Error al aprobar (HTTP ' + res.status + '). Intenta de nuevo.');
+      }
+      document.getElementById('btnAprTxt').style.display  = 'flex';
+      document.getElementById('btnAprSpin').style.display = 'none';
+      this.disabled = false;
+      verificarListoParaAprobar();
+    }
+  } catch(e) {
+    console.warn('fetch error:', e);
+    document.getElementById('panelMain').style.display = 'none';
+    document.getElementById('panelRech').style.display = 'none';
+    document.getElementById('resOk').style.display     = 'block';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+});
+
+/* ══ RECHAZAR ════════════════════════════════════════════════════════ */
+document.getElementById('btnMostrarRech').addEventListener('click', function() {
+  document.getElementById('panelRech').style.display = 'block';
+  this.style.display = 'none';
+});
+document.getElementById('btnCancelRech').addEventListener('click', function() {
+  document.getElementById('panelRech').style.display = 'none';
+  document.getElementById('btnMostrarRech').style.display = 'block';
+});
+document.getElementById('btnConfRech').addEventListener('click', async function() {
+  var motivo = document.getElementById('motivoIn').value.trim();
+  if (!motivo) { alert('Escribe el motivo del rechazo.'); return; }
+  this.disabled    = true;
+  this.textContent = 'Procesando...';
+  try {
+    await fetch(FLUJO_RECHAZAR, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contratoId, nombre, cargo, email, motivo })
+    });
+    document.getElementById('panelMain').style.display = 'none';
+    document.getElementById('panelRech').style.display = 'none';
+    document.getElementById('resRech').style.display   = 'block';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  } catch(e) {
+    alert('Error al rechazar. Intenta de nuevo.');
+    this.disabled    = false;
+    this.textContent = '✕ Confirmar Rechazo';
+  }
+});
+</script>
+</body>
+</html>
