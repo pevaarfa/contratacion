@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Convenio de Adscripcion OPS — Hogar Salud IPS SAS</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#0f2d5a,#1e40af);padding:18px 24px;display:flex;align-items:center;gap:14px}
+.hdr-logo{width:42px;height:42px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;flex-shrink:0}
+.hdr h1{color:#fff;font-size:17px;font-weight:700;margin-bottom:2px}
+.hdr p{color:rgba(255,255,255,0.7);font-size:12px}
+.main{max-width:820px;margin:0 auto;padding:24px 16px 60px}
+.card{background:#fff;border-radius:10px;border:1px solid #e2e8f0;overflow:hidden;margin-bottom:18px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.ct-hdr{background:#f8fafc;border-bottom:1px solid #e2e8f0;padding:13px 20px;display:flex;align-items:center;gap:10px}
+.ct-icon{width:32px;height:32px;background:linear-gradient(135deg,#1e40af,#0f2d5a);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;flex-shrink:0}
+.ct-hdr h3{font-size:13px;font-weight:700;color:#0f172a}
+.ct-hdr p{font-size:11px;color:#64748b}
+.ct-body{padding:28px 36px;font-family:'Times New Roman',serif;font-size:12px;line-height:1.85;color:#000;text-align:justify}
+.ct-body h2{text-align:center;font-size:13px;font-weight:bold;text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px}
+.ct-body table{width:100%;border-collapse:collapse;margin-bottom:18px}
+.ct-body td{border:1px solid #888;padding:5px 8px;font-size:11.5px}
+.ct-body td.lf{font-weight:bold;width:40%}
+.pc{margin-bottom:11px}
+.sec{padding:24px}
+.warn{background:#fff7ed;border:1px solid #fed7aa;border-radius:9px;padding:13px 15px;font-size:13px;color:#92400e;margin-bottom:20px;display:flex;gap:10px;align-items:flex-start;line-height:1.5}
+.upload-zone{border:2px dashed #cbd5e1;border-radius:10px;padding:36px 20px;text-align:center;cursor:pointer;transition:all .2s;background:#fafbfc;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:#1e40af;background:#eff6ff}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.prev-zone{display:none;border:2px solid #1e40af;border-radius:10px;padding:14px;text-align:center;background:#eff6ff}
+.prev-zone img{max-height:90px;max-width:100%;object-fit:contain;border-radius:6px}
+.prev-label{font-size:13px;color:#1e40af;font-weight:700;margin-top:8px}
+.btn-change{margin-top:7px;background:none;border:1px solid #e2e8f0;color:#64748b;padding:5px 12px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600}
+.btn-sign{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;margin-top:18px;padding:15px;background:linear-gradient(135deg,#1e40af,#0f2d5a);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(30,64,175,.3)}
+.btn-sign:hover:not(:disabled){transform:translateY(-2px)}
+.btn-sign:disabled{opacity:.45;cursor:not-allowed;transform:none;background:#94a3b8}
+.result{display:none;border-radius:10px;padding:44px 28px;text-align:center;margin-bottom:18px}
+.result.ok{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac}
+.result.dup{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #93c5fd}
+.result h2{font-size:20px;font-weight:800;margin-bottom:10px}
+.result.ok h2{color:#166534}.result.dup h2{color:#1e40af}
+.result p{font-size:13px;line-height:1.7}
+.result.ok p{color:#166534}.result.dup p{color:#1e3a8a}
+.steps{display:flex;flex-direction:column;gap:8px;margin-top:14px;text-align:left}
+.stp{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.6);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600}
+.result.ok .stp{color:#166534}.result.dup .stp{color:#1e40af}
+.sn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.result.ok .sn{background:#bbf7d0;color:#166534}.result.dup .sn{background:#bfdbfe;color:#1e40af}
+footer{text-align:center;padding:20px;font-size:11px;color:#94a3b8;line-height:1.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.verify-box{padding:28px 24px}
+.v-title{font-size:16px;font-weight:800;color:#0f172a;margin-bottom:6px}
+.v-sub{font-size:13px;color:#64748b;margin-bottom:20px;line-height:1.6}
+.v-input{width:100%;padding:14px 16px;border:2px solid #e2e8f0;border-radius:10px;font-size:18px;font-weight:700;letter-spacing:4px;text-align:center;outline:none;font-family:monospace;transition:border-color .2s;box-sizing:border-box}
+.v-input:focus{border-color:#1e40af;background:#f8faff}
+.v-input.err{border-color:#dc2626;background:#fff5f5}
+.v-err{color:#dc2626;font-size:13px;font-weight:600;text-align:center;margin-top:8px;min-height:20px}
+.btn-verify{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:16px;padding:14px;background:linear-gradient(135deg,#1e40af,#0f2d5a);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(30,64,175,.3)}
+.btn-verify:hover{transform:translateY(-2px)}
+.btn-verify:disabled{opacity:.45;cursor:not-allowed;transform:none;background:#94a3b8}
+@media(max-width:480px){.ct-body{padding:18px 14px}.sec{padding:18px 14px}}
+
+.tabs{display:flex;gap:0;border-bottom:2px solid #e2e8f0;margin-bottom:18px}
+.tab{flex:1;padding:11px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;color:#64748b;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s}
+.tab.on{color:#1e40af;border-bottom-color:#1e40af}
+.canvas-wrap{position:relative;border:2px solid #e2e8f0;border-radius:10px;overflow:hidden;background:#fff;touch-action:none}
+canvas{display:block;width:100%;cursor:crosshair}
+.canvas-tools{display:flex;gap:8px;margin-top:10px;align-items:center}
+.btn-clear{background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700}
+.btn-clear:hover{background:#e2e8f0}
+.canvas-hint{font-size:11px;color:#94a3b8;margin-left:auto}
+
+.otp-input{width:100%;padding:16px;border:2px solid #e2e8f0;border-radius:10px;font-size:28px;font-weight:800;letter-spacing:10px;text-align:center;outline:none;font-family:monospace;transition:border-color .2s;box-sizing:border-box;background:#fff}
+.otp-input:focus{border-color:#1e40af;background:#f8faff}
+.otp-input.err{border-color:#dc2626;background:#fff5f5}
+.otp-input.ok{border-color:#16a34a;background:#f0fdf4}
+.otp-methods{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.otp-method{flex:1;padding:10px;border:1px solid #e2e8f0;border-radius:8px;text-align:center;font-size:12px;font-weight:600;color:#64748b;background:#f8fafc}
+.btn-resend{background:none;border:1px solid #e2e8f0;color:#1e40af;padding:8px 14px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:700;margin-top:10px;width:100%}
+.btn-resend:disabled{color:#94a3b8;cursor:not-allowed}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-logo">HS</div>
+  <div>
+    <h1>Hogar Salud IPS SAS</h1>
+    <p>Convenio de Adscripcion — OPS</p>
+  </div>
+</div>
+<div class="main">
+
+  <div class="card" id="verifyCard">
+    <div class="verify-box">
+      <div class="v-title">&#x1F511; Codigo de verificacion</div>
+      <div class="v-sub">Te enviamos un codigo de 6 digitos a tu correo electronico y a tu celular registrado. Ingresalo para acceder y firmar tu contrato.</div>
+      <div class="otp-methods">
+        <div class="otp-method">&#x1F4E7; Correo electronico</div>
+        <div class="otp-method">&#x1F4F1; Mensaje de texto (SMS)</div>
+      </div>
+      <input type="text" id="otpInput" class="otp-input" placeholder="000000" inputmode="numeric" maxlength="6" autocomplete="one-time-code">
+      <div class="v-err" id="errOtp"></div>
+      <button class="btn-verify" id="btnVerificar" disabled>&#x1F511; Verificar y ver contrato</button>
+      <button class="btn-resend" id="btnReenviar">&#x1F504; Reenviar codigo</button>
+    </div>
+  </div>
+
+  <div class="card" id="ctCard" style="display:none">
+    <div class="ct-hdr">
+      <div class="ct-icon">&#x1F4CB;</div>
+      <div>
+        <h3>Convenio de Adscripcion OPS</h3>
+        <p>Hogar Salud IPS SAS &bull; NIT 900.369.003-1</p>
+      </div>
+    </div>
+    <div class="ct-body" id="ctBody"></div>
+  </div>
+
+  <div class="card" id="sigCard" style="display:none">
+    <div class="sec">
+      <div style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:6px">&#x270D;&#xFE0F; Firma el contrato</div>
+      <div style="font-size:13px;color:#64748b;margin-bottom:14px">Dibuja tu firma o sube una foto de ella. Al enviarla confirmas que aceptas todos los terminos del contrato.</div>
+      <div class="warn">
+        <span style="font-size:16px;flex-shrink:0">&#x26A0;&#xFE0F;</span>
+        <span>Al firmar confirmas que eres <strong id="nomAlerta">el trabajador</strong> y aceptas el contrato con plena validez legal.</span>
+      </div>
+      <div class="tabs">
+        <div class="tab on" id="tabDraw" onclick="switchTab('draw')">&#x270D; Dibujar firma</div>
+        <div class="tab" id="tabUp" onclick="switchTab('upload')">&#x1F4F7; Subir imagen</div>
+      </div>
+      <div id="panelDraw">
+        <div class="canvas-wrap"><canvas id="sigCanvas" height="180"></canvas></div>
+        <div class="canvas-tools">
+          <button class="btn-clear" onclick="clearCanvas()">&#x1F5D1; Borrar</button>
+          <span class="canvas-hint">Firma con el dedo o el mouse</span>
+        </div>
+      </div>
+      <div id="panelUp" style="display:none">
+        <div class="upload-zone" id="upZone">
+          <input type="file" id="fileIn" accept="image/jpeg,image/png,image/jpg,image/webp">
+          <span style="font-size:36px;display:block;margin-bottom:10px">&#x1F4F7;</span>
+          <div style="font-size:15px;font-weight:700;color:#0f172a;margin-bottom:4px">Toca aqui para subir tu firma</div>
+          <div style="font-size:12px;color:#64748b">Foto de tu firma en papel blanco &bull; JPG o PNG &bull; Max 5MB</div>
+        </div>
+        <div class="prev-zone" id="prevZone">
+          <img id="prevImg" src="" alt="Tu firma">
+          <div class="prev-label">&#x2705; Imagen cargada correctamente</div>
+          <button class="btn-change" id="btnCambiar">Cambiar imagen</button>
+        </div>
+      </div>
+      <button class="btn-sign" id="btnFirmar" disabled>
+        <span id="btnTxt">&#x2705;&nbsp; Enviar Firma y Firmar Contrato</span>
+        <span id="btnSpin" style="display:none" class="spinner"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="result ok" id="okCard">
+    <div style="width:64px;height:64px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">&#x2705;</div>
+    <h2>Firma Enviada!</h2>
+    <p>Tu firma quedo registrada. Recursos Humanos revisara y aprobara tu convenio.</p>
+    <div class="steps">
+      <div class="stp ok"><div class="sn">&#x2713;</div>Enviaste tu firma digitalmente</div>
+      <div class="stp ok"><div class="sn">2</div>RRHH revisara y aprobara tu convenio</div>
+      <div class="stp ok"><div class="sn">3</div>Recibiras el documento aprobado por correo</div>
+    </div>
+  </div>
+  <div class="result dup" id="dupCard">
+    <div style="width:64px;height:64px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px">&#x1F4CB;</div>
+    <h2>Ya firmaste este convenio</h2>
+    <p>Tu firma ya fue registrada anteriormente.</p>
+    <div class="steps">
+      <div class="stp dup"><div class="sn">&#x2713;</div>Tu firma fue registrada correctamente</div>
+      <div class="stp dup"><div class="sn">2</div>RRHH esta revisando tu convenio</div>
+      <div class="stp dup"><div class="sn">3</div>Recibiras el documento aprobado por correo</div>
+    </div>
+  </div>
+</div>
+<footer>Hogar Salud IPS SAS &bull; NIT 900.369.003-1 &bull; Carrera 56 # 72-129, Barranquilla</footer>
+
+<script>
+var WEBHOOK = 'https://bb401a6a5927ea58b7ad98868a898c.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/c100cbfe846c41139cf030cc822e8bf3/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=nQ5a3uPZHIY42Yw-4t9IBwp28Qq6wbC_42Y8L23WQus';
+
+var P          = new URLSearchParams(location.search);
+var token      = P.get('token')      || '';
+var nombre     = P.get('nombre')     || 'Trabajador';
+var cargo      = P.get('cargo')      || '';
+var cedula     = P.get('cedula')     || '';
+var salario    = P.get('salario')    || '';
+var periodo    = P.get('periodo')    || 'Mensual';
+var fecha      = P.get('fecha')      || '';
+var labor      = P.get('labor')      || '';
+var ciudad     = P.get('ciudad')     || 'Barranquilla';
+var telefono   = P.get('telefono')   || '';
+/* ✅ TIPO SIN TILDES — actualiza el case del Switch en PA a "OPS" */
+var tipo       = 'OPS';
+var emailV     = P.get('email')      || '';
+var direccion  = P.get('direccion')  || '';
+var nacimiento = P.get('nacimiento') || '';
+var CLAVE = 'hs_firmado_' + token;
+
+var FLUJO_VALIDAR_OTP  = 'https://bb401a6a5927ea58b7ad98868a898c.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/89a70954ef424bae865c1d2d63ae44a7/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=w6rj0k8qjASKFntukvK0tX2E_hSj5HhjXM4d0iuxx4U';
+var FLUJO_REENVIAR_OTP = 'https://bb401a6a5927ea58b7ad98868a898c.14.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/963a8d6a02e34375adfa5fd7336bcfa2/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Drj5ypn00bdXLIsqhr48NyazC93M_5Ysfn_NYuCuELw';
+
+var otpInput     = document.getElementById('otpInput');
+var btnVerificar = document.getElementById('btnVerificar');
+var errOtp       = document.getElementById('errOtp');
+var btnReenviar  = document.getElementById('btnReenviar');
+
+if (token && (sessionStorage.getItem(CLAVE) || localStorage.getItem(CLAVE))) {
+  document.getElementById('verifyCard').style.display = 'none';
+  document.getElementById('dupCard').style.display    = 'block';
+}
+
+otpInput.addEventListener('input', function() {
+  var clean = this.value.replace(/[^0-9]/g,'');
+  if (clean.length > 6) clean = clean.substring(0,6);
+  this.value = clean;
+  this.classList.remove('err','ok');
+  errOtp.textContent = '';
+  btnVerificar.disabled = (clean.length < 6);
+});
+otpInput.addEventListener('keyup', function() {
+  var clean = this.value.replace(/[^0-9]/g,'').substring(0,6);
+  btnVerificar.disabled = (clean.length < 6);
+});
+
+btnVerificar.addEventListener('click', async function() {
+  var otp = otpInput.value.trim();
+  if (otp.length < 6) return;
+  btnVerificar.disabled = true;
+  btnVerificar.textContent = 'Verificando...';
+  errOtp.textContent = '';
+  errOtp.style.color = '#dc2626';
+  try {
+    var resp = await fetch(FLUJO_VALIDAR_OTP, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({contratoId: token, otp: otp})
+    });
+    if (resp.ok || resp.status === 200) {
+      otpInput.classList.add('ok');
+      document.getElementById('verifyCard').style.display = 'none';
+      document.getElementById('ctCard').style.display     = 'block';
+      document.getElementById('sigCard').style.display    = 'block';
+      document.getElementById('nomAlerta').textContent    = nombre;
+      document.getElementById('ctBody').innerHTML         = renderContrato(null);
+      setTimeout(initCanvas, 100);
+    } else {
+      otpInput.classList.add('err');
+      errOtp.textContent = 'Codigo incorrecto. Verifica el codigo e intenta de nuevo.';
+      btnVerificar.disabled = false;
+      btnVerificar.textContent = 'Verificar y ver contrato';
+    }
+  } catch(e) {
+    errOtp.textContent = 'Error de conexion. Intenta de nuevo.';
+    btnVerificar.disabled = false;
+    btnVerificar.textContent = 'Verificar y ver contrato';
+  }
+});
+
+var resendTimer = 0;
+function startResendTimer() {
+  resendTimer = 30; btnReenviar.disabled = true;
+  var iv = setInterval(function(){
+    resendTimer--;
+    btnReenviar.textContent = "Reenviar codigo (" + resendTimer + "s)";
+    if (resendTimer <= 0) { clearInterval(iv); btnReenviar.disabled = false; btnReenviar.textContent = "Reenviar codigo"; }
+  }, 1000);
+}
+btnReenviar.addEventListener('click', async function() {
+  if (!token) return; btnReenviar.disabled = true;
+  try {
+    await fetch(FLUJO_REENVIAR_OTP, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({contratoId: token, telefono: telefono, email: emailV})
+    });
+    errOtp.textContent = 'Codigo reenviado a tu correo y celular.';
+    errOtp.style.color = '#16a34a';
+  } catch(e) {
+    errOtp.textContent = 'Error al reenviar. Intenta de nuevo.';
+    errOtp.style.color = '#dc2626';
+  }
+  startResendTimer();
+});
+
+function renderContrato(fTrab) {
+  var h='';
+  h+='<h2>CONVENIO DE ADSCRIPCION PARA ASISTENCIA EN SALUD</h2>';
+  h+='<h2 style="margin-bottom:20px">DE PACIENTES A DOMICILIO</h2>';
+  h+='<p class="pc"><strong>DATOS DEL ADSCRIBIENTE:</strong></p>';
+  h+='<p style="margin:0 0 2px"><strong>NOMBRE: "HOGARSALUD IPS SAS"</strong></p>';
+  h+='<p style="margin:0 0 2px"><strong>NIT.: 900.369.003-1</strong></p>';
+  h+='<p style="margin:0 0 2px"><strong>DOMICILIO: Carrera 56 # 72-129</strong></p>';
+  h+='<p style="margin:0 0 2px"><strong>NOMBRE REPRESENTANTE LEGAL: ALVARO JOSE MERCADO CASIJ</strong></p>';
+  h+='<p style="margin:0 0 18px"><strong>IDENTIFICACION: C.C. 72.343.183 de Barranquilla</strong></p>';
+  h+='<p class="pc"><strong>DATOS DEL ADSCRITO:</strong></p>';
+  h+=tbl([
+    row('NOMBRE:',nombre.toUpperCase(),0),
+    row('IDENTIFICACION:',cedula,1),
+    row('TELEFONO DE CONTACTO:',telefono,0),
+    row('DIRECCION:',direccion,1),
+    row('EMAIL:',emailV,0),
+    row('ESPECIALIDAD:',cargo.toUpperCase(),1),
+    row('REMUNERACION:',salario||'CONFORME A TARIFAS',0),
+    row('PERIODOS DE PAGO:',periodo||'1 Vez al mes previa presentacion Cuenta de Cobro (mes vencido)',1),
+    row('FECHA DE CONTRATO:',fecha,0),
+    row('LUGAR DE LABORES:',ciudad||'Atlantico / Barranquilla',1),
+  ]);
+  h+='<p class="pc"><strong>ANEXO 1 - NORMATIVIDAD</strong></p>';
+  h+='<p class="pc">Las partes antes descritas, hemos acordado celebrar el presente Convenio de Adscripcion que se regira por las clausulas que se mencionan a continuacion:</p>';
+  h+='<p class="pc"><strong>Clausula Primera. Causa y antecedentes del contrato:</strong> LA ADSCRIBIENTE como I.P.S. de reconocida capacidad en el medio, cuenta con las condiciones necesarias para la prestacion de servicios de salud domiciliaria. Por su parte EL ADSCRITO, es un profesional en el area de la salud, en la especialidad de '+cargo.toUpperCase()+', interesado en aprovechar las posibilidades de la adscribiente para su ejercicio profesional.</p>';
+  h+='<p class="pc"><strong>Segunda. Objeto:</strong> LA ADSCRIBIENTE se compromete a facilitar los medios de que dispone para la prestacion de servicios de atencion domiciliaria, destinando al adscrito a la prestacion de servicios de atencion medica y paramedica en procedimientos de aplicacion domiciliaria. <strong>PARAGRAFO:</strong> EL ADSCRITO podra aceptar o rechazar libremente los servicios ofrecidos, sin que ello genere sancion o consecuencia alguna.</p>';
+  h+='<p class="pc"><strong>Clausula Tercera. Obligaciones de la adscribiente:</strong> 1) Informar sobre los servicios asistenciales domiciliarios; 2) Mantener en funcionamiento sus dependencias; 3) Contar con la dotacion suficiente para el servicio domiciliario; 4) Derivar hacia el adscrito los pacientes que le correspondan; 5) Remitir oportunamente las cuentas de cobro; 6) Pagar los servicios profesionales segun tarifas convenidas; 7) Orientar e indicar las politicas a seguir; 8) Hacer el mantenimiento preventivo de los equipos del maletin medico.</p>';
+  h+='<p class="pc"><strong>Clausula Cuarta. Obligaciones del ADSCRITO:</strong> 1) Prestar el servicio en forma etica bajo estrictos principios de Racionalidad Tecnico Cientifica; 2) Elaborar y llevar las anotaciones pertinentes en las historias clinicas segun la Resolucion 1.995 de 1999; 4) Prestar el servicio personalmente, pues este contrato es Intuito Personal; 5) Afiliarse debidamente a los sistemas de seguridad social, pensiones, salud y ARL; 6) Presentar las cuentas de cobro en las condiciones del presente contrato; 7) Contar con un maletin medico con los equipos requeridos.</p>';
+  h+='<p class="pc"><strong>Clausula Quinta. Valor de los Servicios:</strong> LA ADSCRIBIENTE pagara los valores correspondientes a la suma de las cuentas de cobro debidamente presentadas por EL ADSCRITO de acuerdo con las tarifas convenidas.</p>';
+  h+='<p class="pc"><strong>Clausula Sexta. Forma de pago:</strong> El adscrito presentara su cuenta de cobro mensual con el nombre del paciente, orden de servicio firmada, numero de sesiones, valor unitario y total. La adscribiente auditara la cuenta dentro de los 5 dias siguientes y efectuara el pago el dia 10 del mes siguiente.</p>';
+  h+='<p class="pc"><strong>Clausula Septima. Duracion del Convenio:</strong> La duracion del presente convenio estara supeditada a la existencia de necesidades operativas y asistenciales de LA ADSCRIBIENTE. El convenio podra ser terminado en cualquier momento, de manera unilateral por cualquiera de las partes, mediante comunicacion escrita, sin lugar a indemnizaciones.</p>';
+  h+='<p class="pc"><strong>Clausula Novena. Libertad Contractual:</strong> La celebracion del presente convenio no significa acuerdo de exclusividad y por consiguiente ambas partes gozan de absoluta libertad para celebrar convenios similares con terceros.</p>';
+  h+='<p class="pc"><strong>Clausula Decima. Inexistencia de Relacion Laboral:</strong> Entre LA ADSCRIBIENTE y EL ADSCRITO no se establece relacion alguna de caracter laboral.</p>';
+  h+='<p class="pc"><strong>Clausula Decima Primera. Independencia del adscrito:</strong> EL ADSCRITO actuara por su propia cuenta, con absoluta libertad, autonomia tecnica y administrativa, sin subordinacion con LA ADSCRIBIENTE.</p>';
+  h+='<p class="pc"><strong>Clausula Decima Segunda. Cesion del Contrato:</strong> EL ADSCRITO no podra ceder la ejecucion del presente contrato a un tercero sin previa autorizacion escrita de LA ADSCRIBIENTE.</p>';
+  h+='<p class="pc"><strong>Clausula Decima Tercera. Modificaciones:</strong> Toda modificacion al presente convenio se realizara de comun acuerdo entre las partes, dejando constancia por escrito.</p>';
+  h+='<p class="pc"><strong>Clausula Decima Cuarta. Controles:</strong> LA ADSCRIBIENTE podra inspeccionar, verificar y auditar el servicio, y hacer sugerencias por escrito para que EL ADSCRITO corrija deficiencias, sin que ello se entienda como lesion a su autonomia tecnica.</p>';
+  h+='<p class="pc"><strong>Clausula Decima Quinta. Compromisoria:</strong> Las diferencias que surjan entre las partes seran sometidas a un amigable componedor designado de comun acuerdo.</p>';
+  h+='<p class="pc"><strong>Clausula Decima Sexta. Integralidad:</strong> El presente contrato regula en su integridad las relaciones juridicas entre las partes y deja sin efecto cualquier convenio o estipulacion acordada con anterioridad.</p>';
+  h+='';
+  h+='<p class="pc"><strong>CLAUSULA DE VALIDEZ LEGAL POR VERIFICACION DIGITAL:</strong> Las partes declaran que el presente contrato fue firmado mediante un proceso de verificacion de identidad digital. El trabajador recibio un codigo de verificacion unico (OTP) en su correo electronico y celular registrados, y al ingresar dicho codigo confirmo de manera fehaciente su identidad y su voluntad de aceptar el contrato. Este mecanismo de autenticacion tiene plena validez legal conforme a la Ley 527 de 1999 (Comercio Electronico) y la Ley 1273 de 2009, y constituye evidencia suficiente del consentimiento libre e informado del trabajador. En consecuencia, el presente contrato tiene la misma validez y efectos juridicos que un documento fisico firmado de manera manuscrita.</p>';
+  h+=firmas(fTrab);
+  return h;
+}
+
+/* ══ TABS ═══════════════════════════════════════════════════════════════ */
+function switchTab(tab){
+  document.getElementById('tabDraw').classList.toggle('on',tab==='draw');
+  document.getElementById('tabUp').classList.toggle('on',tab==='upload');
+  document.getElementById('panelDraw').style.display=tab==='draw'?'block':'none';
+  document.getElementById('panelUp').style.display=tab==='upload'?'block':'none';
+  firmaB64=null;btnF.disabled=true;
+  document.getElementById('ctBody').innerHTML=renderContrato(null);
+  if(tab==='draw'){setTimeout(initCanvas,50);}
+}
+/* ══ CANVAS ══════════════════════════════════════════════════════════════ */
+var canvas=document.getElementById('sigCanvas');
+var ctx=canvas.getContext('2d');
+var drawing=false;var hasDrawn=false;
+function resizeCanvas(){
+  var r=canvas.getBoundingClientRect();var s=window.devicePixelRatio||1;
+  canvas.width=r.width*s;canvas.height=180*s;ctx.scale(s,s);
+  ctx.strokeStyle='#0f2d5a';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+}
+/* Canvas se inicializa cuando el panel es visible */
+function initCanvas(){
+  var r=canvas.getBoundingClientRect();
+  if(r.width===0){setTimeout(initCanvas,50);return;}
+  var s=window.devicePixelRatio||1;
+  canvas.width=r.width*s;canvas.height=180*s;ctx.scale(s,s);
+  ctx.strokeStyle='#0f2d5a';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
+}
+window.addEventListener('resize',function(){if(!hasDrawn)initCanvas();});
+function getPos(e,c){var r=c.getBoundingClientRect();var t=e.touches?e.touches[0]:e;return{x:t.clientX-r.left,y:t.clientY-r.top};}
+function startDraw(e){e.preventDefault();drawing=true;var p=getPos(e,canvas);ctx.beginPath();ctx.moveTo(p.x,p.y);}
+function doDraw(e){e.preventDefault();if(!drawing)return;hasDrawn=true;var p=getPos(e,canvas);ctx.lineTo(p.x,p.y);ctx.stroke();updateCanvasFirma();}
+function endDraw(e){e.preventDefault();drawing=false;}
+canvas.addEventListener('mousedown',startDraw);canvas.addEventListener('mousemove',doDraw);canvas.addEventListener('mouseup',endDraw);
+canvas.addEventListener('touchstart',startDraw,{passive:false});canvas.addEventListener('touchmove',doDraw,{passive:false});canvas.addEventListener('touchend',endDraw,{passive:false});
+function clearCanvas(){ctx.clearRect(0,0,canvas.width,canvas.height);hasDrawn=false;firmaB64=null;btnF.disabled=true;document.getElementById('ctBody').innerHTML=renderContrato(null);}
+function updateCanvasFirma(){firmaB64=canvas.toDataURL('image/png');btnF.disabled=false;document.getElementById('ctBody').innerHTML=renderContrato(firmaB64);}
+/* ══ UPLOAD ══════════════════════════════════════════════════════════════ */
+var firmaB64=null;
+var fileIn=document.getElementById('fileIn');
+var upZone=document.getElementById('upZone');
+var prevZone=document.getElementById('prevZone');
+var prevImg=document.getElementById('prevImg');
+var btnF=document.getElementById('btnFirmar');
+function cargar(file){
+  if(!file)return;if(file.size>5*1024*1024){alert('Imagen muy grande. Maximo 5MB.');return;}
+  var reader=new FileReader();
+  reader.onload=function(e){firmaB64=e.target.result;prevImg.src=firmaB64;upZone.style.display='none';prevZone.style.display='block';btnF.disabled=false;document.getElementById('ctBody').innerHTML=renderContrato(firmaB64);};
+  reader.readAsDataURL(file);
+}
+fileIn.addEventListener('change',function(e){cargar(e.target.files[0]);});
+upZone.addEventListener('dragover',function(e){e.preventDefault();upZone.classList.add('drag');});
+upZone.addEventListener('dragleave',function(){upZone.classList.remove('drag');});
+upZone.addEventListener('drop',function(e){e.preventDefault();upZone.classList.remove('drag');cargar(e.dataTransfer.files[0]);});
+document.getElementById('btnCambiar').addEventListener('click',function(){firmaB64=null;btnF.disabled=true;prevZone.style.display='none';upZone.style.display='block';fileIn.value='';document.getElementById('ctBody').innerHTML=renderContrato(null);});
+btnF.addEventListener('click',async function(){
+  if(!firmaB64)return;
+  if(sessionStorage.getItem(CLAVE)||localStorage.getItem(CLAVE)){document.getElementById('sigCard').style.display='none';document.getElementById('dupCard').style.display='block';return;}
+  document.getElementById('btnTxt').style.display='none';document.getElementById('btnSpin').style.display='flex';this.disabled=true;
+  var payload={token:token,firma:firmaB64,ts:new Date().toISOString(),nombre:nombre,cedula:cedula,cargo:cargo,tipo:tipo,email:emailV,salario:salario,periodo:periodo,fecha:fecha,labor:labor,ciudad:ciudad,telefono:telefono};
+  try{
+    await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    try{sessionStorage.setItem(CLAVE,'1');}catch(e){}try{localStorage.setItem(CLAVE,'1');}catch(e){}
+    document.getElementById('ctCard').style.display='none';document.getElementById('sigCard').style.display='none';document.getElementById('okCard').style.display='block';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){
+    alert('Error al enviar la firma. Verifica tu conexion.');
+    document.getElementById('btnTxt').style.display='flex';document.getElementById('btnSpin').style.display='none';this.disabled=false;
+  }
+});
+</script>
+</body>
+</html>
