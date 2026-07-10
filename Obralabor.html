@@ -194,7 +194,7 @@ var fecha      = P.get('fecha')       || '';
 var labor      = P.get('labor')       || '';
 var ciudad     = P.get('ciudad')      || 'Barranquilla';
 var telefono   = P.get('telefono')    || '';
-/* ✅ TIPO SIN TILDES — actualiza el case del Switch en Power Automate a "Obra o Labor" */
+
 var tipo       = 'Obra o Labor';
 var emailV     = P.get('email')       || '';
 var direccion  = P.get('direccion')   || '';
@@ -347,7 +347,7 @@ function resizeCanvas(){
   canvas.width=r.width*s;canvas.height=180*s;ctx.scale(s,s);
   ctx.strokeStyle='#0f2d5a';ctx.lineWidth=2.5;ctx.lineCap='round';ctx.lineJoin='round';
 }
-/* Canvas se inicializa cuando el panel es visible */
+
 function initCanvas(){
   var r=canvas.getBoundingClientRect();
   if(r.width===0){setTimeout(initCanvas,50);return;}
