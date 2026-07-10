@@ -287,6 +287,32 @@ btnReenviar.addEventListener('click', async function() {
   startResendTimer();
 });
 
+function even(i){ return i%2===0 ? '#f2f2f2' : '#fff'; }
+function row(l, v, i) {
+  var bg = even(i);
+  return '<tr><td class="lf" style="border:1px solid #888;padding:5px 8px;background:' + bg + '">' + l + '</td>'
+       + '<td style="border:1px solid #888;padding:5px 8px;background:' + bg + '">' + (v||'') + '</td></tr>';
+}
+function tbl(rows){ return '<table><tbody>' + rows.join('') + '</tbody></table>'; }
+function firmaBlok(nombreF, cc, empresa, nit, imgSrc, etiqueta) {
+  var img = imgSrc
+    ? '<img src="' + imgSrc + '" style="max-height:52px;max-width:170px;object-fit:contain;display:block;margin:0 auto">'
+    : '<div style="height:52px"></div>';
+  return '<div style="flex:1;min-width:180px;text-align:center">' + img
+    + '<div style="border-top:1px solid #000;padding-top:6px;font-size:11.5px;line-height:1.6">'
+    + '<strong>' + nombreF + '</strong><br>'
+    + (cc       ? 'C.C. ' + cc     + '<br>' : '')
+    + (empresa  ? empresa           + '<br>' : '')
+    + (nit      ? 'Nit. ' + nit    + '<br>' : '')
+    + (etiqueta ? '<em>' + etiqueta + '</em>' : '')
+    + '</div></div>';
+}
+function firmas(fTrab) {
+  var izq = firmaBlok('ALVARO JOSE MERCADO CASIJ','72.343.183','HOGARSALUD IPS','900369003-1','','EL EMPLEADOR');
+  var der = firmaBlok(nombre.toUpperCase(), cedula, cargo.toUpperCase(),'',fTrab||'','EL TRABAJADOR');
+  return '<div style="display:flex;justify-content:space-around;margin-top:60px;gap:40px;flex-wrap:wrap">' + izq + der + '</div>';
+}
+
 function renderContrato(fTrab) {
   var h='';
   h+='<h2 style="margin-bottom:20px">CONTRATO LABORAL DE APRENDIZAJE ESPECIAL A TERMINO FIJO ETAPA PRACTICA</h2>';
